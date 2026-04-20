@@ -1,3 +1,10 @@
 body{
-    background-color: blue;
+    background-color: #1e1e2e;
+}
+
+
+#mainSidebar{
+    width: clamp(180px, 12rem, 280px);
+    height: 100vh;
+    background-color: #181825;
 }
