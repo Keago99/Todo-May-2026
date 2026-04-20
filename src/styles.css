@@ -1,5 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+html{
+    font-family: "Quicksand", sans-serif;
+    color:#cdd6f4;
+}
+
 body{
     background-color: #1e1e2e;
+    margin: 0;
+}
+
+main{
+    display: flex;
+    min-height: 100vh;
 }
 
 
@@ -7,4 +20,23 @@ body{
     width: clamp(180px, 12rem, 280px);
     height: 100vh;
     background-color: #181825;
+}
+
+#sidebarHeading{
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid rgb(255, 255, 255);
+}
+
+#mainArea{
+    flex: 1;
+}
+
+#mainHeading{
+    display: flex;
+    height: 3rem;
+    background-color: #313244;
+    justify-content: center;
+    font-size: xx-large;
+    font-weight: 700;
 }
