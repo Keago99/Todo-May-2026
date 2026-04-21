@@ -116,3 +116,16 @@ dialog{
     height: 30px;
     width: 100px;
 }
+
+.project-item{
+    display: flex;
+    max-width: 100%;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding-left: 20px;
+}
+
+.projectDeleteBtn{
+
+}
+

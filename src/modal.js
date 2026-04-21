@@ -15,7 +15,8 @@ const modalAddProject = () =>{
             return false;
         }
         else{
-            //add project
+            const newProject = project.createProject(projectName);
+            projectsManager.addProject(newProject);
             return true;
         }
     }
@@ -24,3 +25,5 @@ const modalAddProject = () =>{
         return false;
     }
 }
+
+export { modalAddProject };

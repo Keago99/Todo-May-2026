@@ -1,4 +1,5 @@
 import * as projectsManager from "./projectsManager.js";
+import * as modal from "./modal.js";
 
 const showProjectDialog = () =>{
     const projectDialog = document.querySelector("#projectDialog");
@@ -28,22 +29,24 @@ const createProjectElement = (project) =>{
     deleteBtn.type = "button";
     deleteBtn.className = "projectDeleteBtn";
     deleteBtn.innerHTML = "❌";
-    // Line below might be unecessary
-    deleteBtn.dataset.ID = project.getID();
 
 
     deleteBtn.addEventListener("click", (e) =>{
         //prevents the bubbled up chain reaction
         e.stopPropagation();
-        const projectDeleted = projectsManager.deleteProject(project);
-        if(projectDeleted){
-            console.log("project deleted");
-            renderProjects();
-            return true;
+        const userConfirmed = confirm(`Are you sure you want to delete ${project.getName()}?`);
+        if (userConfirmed){
+            const projectDeleted = projectsManager.deleteProject(project);
+            if(projectDeleted){
+                console.log("project deleted");
+                renderProjects();
+            }
+            else{
+                alert("error!");
+            }
         }
         else{
-            alert("error!");
-            return false;
+            console.log("user decided not to delete");
         }
     });
 
@@ -71,5 +74,14 @@ const renderTodos = (project) =>{
 
 }
 
+const addProjectDialogEvent = () =>{
+    const dialogProjectAddBtn = document.querySelector("#dialogProjectAddBtn");
 
-export { showProjectDialog, closeProjectDialog };
+    dialogProjectAddBtn.addEventListener("click", () => {
+        modal.modalAddProject();
+        renderProjects();
+    })
+}
+
+
+export { showProjectDialog, closeProjectDialog, addProjectDialogEvent };
