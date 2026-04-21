@@ -35,6 +35,16 @@ dialog{
     border-radius: 10px;
 }
 
+dialog input,
+dialog select,
+dialog textarea {
+    background-color: #b4befe;
+}
+
+select option {
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+}
 
 #mainSidebar{
     display: flex;
@@ -75,7 +85,7 @@ dialog{
     display: flex;
     width: auto;
     height: 25rem;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 #buttonArea{

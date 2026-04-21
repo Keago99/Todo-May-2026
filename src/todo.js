@@ -19,5 +19,7 @@ function createTodo(title, description, dueDate, priority){
 
     const toggleCompleted = () => { completed = !completed };
 
-    return { getID, getTitle, getDescription, getDueDate, getPriority, getCompleted, toggleCompleted };
+    return { getID, getTitle, getDescription, getDueDate, getPriority, getCompleted, toggleCompleted};
 }
+
+export { createTodo };

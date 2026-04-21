@@ -43,6 +43,33 @@
                 <button type="button" id="dialogProjectCloseBtn" class="dialogButton">Close ❌</button>
             </div>
         </dialog>
+        <dialog id="todoDialog">
+            <div class="dialogHeading">
+                <h2>New Todo🧩</h2>
+            </div>
+            <div class="dialogInputs">
+                <label for="todoName">Name:</label>
+                <input type="text" id="todoName">
+                <label for="todoDescription">Description</label>
+                <textarea id="todoDescription" id="todoDescription" rows="3" cols="40"></textarea>
+                <label for="todoDueDate">Due Date:</label>
+                <input type="date" id="todoDueDate">
+                <label for="todoPriority">Priority:</label>
+                <select id="todoPriority">
+                    <option value="low">Low 🔴</option>
+                    <option value="medium" selected>Medium 🟡</option>
+                    <option value="high">High 🟢</option>
+                </select>
+            </div>
+            <div class="dialogButtonDiv">
+                <button type="button" id="todoAddBtn" class="dialogButton">
+                    Add Todo ✏️
+                </button>
+                <button type="button" id="dialogTodoCloseBtn" class="dialogButton">
+                    Close ❌
+                </button>
+            </div>
+        </dialog>
     </main>
     <footer>
 

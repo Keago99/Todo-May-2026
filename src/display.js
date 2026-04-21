@@ -1,6 +1,17 @@
 import * as projectsManager from "./projectsManager.js";
 import * as modal from "./modal.js";
 
+const showTodoDialog = () =>{
+    const todoDialog = document.querySelector("#todoDialog");
+
+    const addTodoBtn = document.querySelector("#addTodoBtn");
+
+    addTodoBtn.addEventListener("click", () =>{
+        todoDialog.showModal();
+    });
+}
+
+
 const showProjectDialog = () =>{
     const projectDialog = document.querySelector("#projectDialog");
     const addProjectBtn = document.querySelector("#addProjectBtn");
@@ -55,6 +66,8 @@ const createProjectElement = (project) =>{
 }
 
 const createTodoCard = (todo) =>{
+    const cardDiv = document.createElement("div");
+    cardDiv.className = "cardDiv";
 
 }
 
@@ -83,5 +96,18 @@ const addProjectDialogEvent = () =>{
     })
 }
 
+const closeTodoDialog = () =>{
+    const todoDialog = document.querySelector("#todoDialog");
+    const closeDialogBtn = document.querySelector("#dialogTodoCloseBtn");
 
-export { showProjectDialog, closeProjectDialog, addProjectDialogEvent };
+    closeDialogBtn.addEventListener("click", () => {
+        todoDialog.close();
+    })
+}
+
+const addTodoDialog = () =>{
+    const todoDialog = document.querySelector("#todoDialog");
+}
+
+
+export { showProjectDialog, closeProjectDialog, addProjectDialogEvent, showTodoDialog, closeTodoDialog };

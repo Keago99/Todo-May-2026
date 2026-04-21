@@ -1,6 +1,7 @@
 // All code relating to modals go here, but not DOM related
 import * as project from "./project.js"
 import * as projectsManager from "./projectsManager.js";
+import * as todo from "./todo.js";
 
 const modalAddProject = () =>{
     const projectName = document.querySelector("#projectName").value.trim();
@@ -23,6 +24,28 @@ const modalAddProject = () =>{
     else{
         alert("project name invalid, please retype project name");
         return false;
+    }
+}
+
+const modalAddTodo = () =>{
+    const todoName = document.querySelector("#todoName").value.trim();
+
+    const todoDescription = document.querySelector("#todoDescription").value.trim();
+
+    const todoDueDate = document.querySelector("#todoDueDate").value;
+
+    const todoPriority = document.querySelector("#todoPriority").value;
+
+    const project = projectsManager.returnActiveProject();
+
+    if (!todoName || !todoDueDate || !todoPriority){
+        alert("All fields must be filled in!");
+        return;
+    }
+    else{
+        const newTodo = todo.createTodo(todoName, todoDescription, todoDueDate, todoPriority);
+        project.addTodo(newTodo);
+        console.log(newTodo + "added");
     }
 }
 
