@@ -16,9 +16,11 @@ function createProject(name){
         projectTodos.push(todo);
     }
 
-    const removeTodo = (todoID) => {
-        projectTodos = projectTodos.filter(todo => todo.ID !== todoID)
+    const removeTodo = (todo) => {
+        projectTodos = projectTodos.filter(t => t.getID() !== todo.getID());
     }
 
     return { getID, getTodos, getName, addTodo, removeTodo };
 }
+
+export { createProject };

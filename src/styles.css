@@ -15,8 +15,30 @@ main{
     min-height: 100vh;
 }
 
+button{
+    background-color: #89b4fa;
+    color: whitesmoke;
+    border-radius: 10px;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+button:hover{
+    background-color: #cba6f7; 
+}
+
+dialog{
+    background-color: #181825;
+    color: #cdd6f4;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 10px;
+}
+
 
 #mainSidebar{
+    display: flex;
+    flex-direction: column;
     width: clamp(180px, 12rem, 280px);
     height: 100vh;
     background-color: #181825;
@@ -26,6 +48,14 @@ main{
     display: flex;
     justify-content: center;
     border-bottom: 2px solid rgb(255, 255, 255);
+}
+
+#addProjectBtn{
+    margin-top: auto;
+    margin-bottom: 30px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
 }
 
 #mainArea{
@@ -39,4 +69,50 @@ main{
     justify-content: center;
     font-size: xx-large;
     font-weight: 700;
+}
+
+#cardArea{
+    display: flex;
+    width: auto;
+    height: 25rem;
+    justify-content: space-between;
+}
+
+#buttonArea{
+    display: flex;
+    justify-content: center;
+}
+
+#addTodoBtn{
+    height: 50px;
+    width: 100px;
+
+}
+
+#projectDialog{
+    width: 20rem;
+    height: 10rem;
+}
+
+.dialogHeading{
+    display: flex;
+    justify-content: center;
+}
+
+.dialogInputs{
+    display: grid;
+    grid-template-columns: 10rem 10rem;
+    text-align: center;
+}
+
+.dialogButtonDiv{
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.dialogButton{
+    height: 30px;
+    width: 100px;
 }

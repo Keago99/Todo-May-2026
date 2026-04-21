@@ -13,7 +13,8 @@ export default {
     },
     devtool: "eval-source-map",
     devServer: {
-        watchFiles: ["./src/index.html"],
+        watchFiles: ["./src/**/*"],
+        liveReload: true,
     },
     plugins: [
         new HtmlWebpackPlugin({

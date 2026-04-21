@@ -11,6 +11,11 @@
             <div id="sidebarHeading">
                 <h3>Projects!🗂️</h3>
             </div>
+            <button type="button" id="addProjectBtn">
+                Add Project➕
+            </button>
+            <div id="projectArea">
+            </div>
         </div>
         <div id="mainArea">
             <div id="mainHeading">
@@ -19,7 +24,23 @@
             <div id="cardArea">
 
             </div>
+            <div id="buttonArea">
+                <button type="button" id="addTodoBtn">Add todo➕</button>
+            </div>
         </div>
+        <dialog id="projectDialog">
+            <div class="dialogHeading">
+                 <h2>New Project🗃️</h2>
+            </div>
+            <div class="dialogInputs">
+                <label for="projectName">Name:</label>
+                <input type="text" id="projectName">
+            </div>
+            <div class="dialogButtonDiv">
+                <button type="button" id="dialogProjectAddBtn" class="dialogButton">Add project📋</button>
+                <button type="button" id="dialogProjectCloseBtn" class="dialogButton">Close ❌</button>
+            </div>
+        </dialog>
     </main>
     <footer>
 

@@ -1,6 +1,10 @@
 //todo logic here
 function createTodo(title, description, dueDate, priority){
-    // code here
+    
+    let completed = false
+
+    const getCompleted = () => completed;
+
     const todoID = crypto.randomUUID();
 
     const getID = () => todoID;
@@ -13,7 +17,7 @@ function createTodo(title, description, dueDate, priority){
 
     const getPriority = () => priority;
 
+    const toggleCompleted = () => { completed = !completed };
 
-
-    return { getID, getTitle, getDescription, getDueDate, getPriority };
+    return { getID, getTitle, getDescription, getDueDate, getPriority, getCompleted, toggleCompleted };
 }
