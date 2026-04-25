@@ -66,11 +66,27 @@ const createProjectElement = (project) =>{
     return projectDiv;
 }
 
-const createTodoCard = (todo) =>{
-    const cardDiv = document.createElement("div");
-    cardDiv.className = "cardDiv";
+const createTodoElement = (todo) => {
+    const todoCard = document.createElement("div");
+    todoCard.className = "todoCard";
 
+    const title = document.createElement("div");
+    title.className = "todoTitle";
+    title.textContent = todo.getTitle();
+
+    const description = document.createElement("div");
+    description.className = "todoDescription";
+    description.innerText = todo.getDescription();
+
+    const dueDate = document.createElement("div");
+    dueDate.className = "todoDueDate";
+    dueDate.innerText = todo.getDueDate();
+
+    const priority = document.createElement("div");
+    priority.className = "todoPriority";
+    priority.innerText = getPriority();
 }
+
 
 const renderProjects = () =>{
     const projectArea = document.querySelector("#projectArea");
