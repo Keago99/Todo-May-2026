@@ -26,6 +26,7 @@ const closeProjectDialog = () =>{
     const closeDialogBtn = document.querySelector("#dialogProjectCloseBtn");
 
     closeDialogBtn.addEventListener(("click"), () =>{
+        clearProjectDialogInput();
         projectDialog.close();
     });
 };
@@ -87,12 +88,22 @@ const renderTodos = (project) =>{
 
 }
 
+const clearProjectDialogInput = () => {
+    const projectDialogInput = document.querySelector("#projectName");
+
+    projectDialogInput.value = "";
+}
+
 const addProjectDialogEvent = () =>{
     const dialogProjectAddBtn = document.querySelector("#dialogProjectAddBtn");
+    const dialogProject = document.querySelector("#projectDialog");
 
     dialogProjectAddBtn.addEventListener("click", () => {
         modal.modalAddProject();
         renderProjects();
+        clearProjectDialogInput();
+        dialogProject.close();
+
     })
 }
 
