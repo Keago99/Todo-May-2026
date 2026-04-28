@@ -1,5 +1,6 @@
 import * as projectsManager from "./projectsManager.js";
 import * as modal from "./modal.js";
+import * as project from "./project.js";
 
 const showTodoDialog = () =>{
     const todoDialog = document.querySelector("#todoDialog");
@@ -37,6 +38,15 @@ const createProjectElement = (project) =>{
     projectDiv.textContent = project.getName();
     projectDiv.dataset.projectID = project.getID();
 
+    projectDiv.addEventListener("click", () =>{
+        projectsManager.setActiveProject(project);
+        document.querySelectorAll(".activeProject").forEach(projDiv => {
+            projDiv.classList.remove("activeProject");
+        });
+        projectDiv.classList.toggle("activeProject");
+        console.log(`the active project is ${project.getName()}`);
+    });
+
     const deleteBtn = document.createElement("button");
     deleteBtn.type = "button";
     deleteBtn.className = "projectDeleteBtn";
@@ -49,6 +59,8 @@ const createProjectElement = (project) =>{
         const userConfirmed = confirm(`Are you sure you want to delete ${project.getName()}?`);
         if (userConfirmed){
             const projectDeleted = projectsManager.deleteProject(project);
+            projectsManager.setActiveProject(null);
+            console.log(`The active project is ${projectsManager.returnActiveProject()}`);
             if(projectDeleted){
                 console.log("project deleted");
                 renderProjects();
@@ -76,15 +88,30 @@ const createTodoElement = (todo) => {
 
     const description = document.createElement("div");
     description.className = "todoDescription";
-    description.innerText = todo.getDescription();
+    description.textContent = todo.getDescription();
 
     const dueDate = document.createElement("div");
     dueDate.className = "todoDueDate";
-    dueDate.innerText = todo.getDueDate();
+    dueDate.textContent = todo.getDueDate();
 
     const priority = document.createElement("div");
     priority.className = "todoPriority";
-    priority.innerText = getPriority();
+    priority.textContent = getPriority();
+
+    const completed = document.createElement("div");
+    completed.className = "todoCompleted";
+    const todoComplete = todo.getCompleted();
+    // short if statment to change completed to something more presentable
+    if (todoComplete === false){
+        completed.textContent = "Not completed";
+    }
+    else{
+        completed.textContent = "Completed";
+    }
+
+    todoCard.append(title, description, dueDate, priority, completed);
+    
+    return todoCard;
 }
 
 
@@ -101,7 +128,14 @@ const renderProjects = () =>{
 }
 
 const renderTodos = (project) =>{
+    const cardArea = document.querySelector("#cardArea");
+    cardArea.innerHTML = "";
+    let todos = project.getTodos();
 
+    todos.forEach(todo => {
+        const todoCard = createTodoElement(todo);
+        cardArea.append(todoCard);
+    });
 }
 
 const clearProjectDialogInput = () => {
@@ -134,7 +168,35 @@ const closeTodoDialog = () =>{
 
 const addTodoDialog = () =>{
     const todoDialog = document.querySelector("#todoDialog");
+
+    const currentProject = projectsManager.returnActiveProject();
+
+    const name = document.querySelector("#todoName");
+
+    const desc = document.querySelector("#todoDescription");
+
+    const date = document.querySelector("#todoDueDate");
+
+    const priority = document.querySelector("#todoPriority");
+
+    if (!name || !desc || !date || !priority){
+        alert("Please fill in all missing fields");
+        return;
+    }
+    else{
+        const newTodo = project.createProject(name, desc, date, priority);
+        currentProject.addTodo(newTodo);
+        console.log(currentProject.getTodos())
+    }
 }
 
+//composite function that will be exported to index.js on launch
+const displayStartup = () => {
+    showProjectDialog();
+    closeProjectDialog();
+    addProjectDialogEvent();
+    showTodoDialog();
+    closeTodoDialog();
+}
 
-export { showProjectDialog, closeProjectDialog, addProjectDialogEvent, showTodoDialog, closeTodoDialog };
+export { showProjectDialog, closeProjectDialog, addProjectDialogEvent, showTodoDialog, closeTodoDialog, displayStartup };
