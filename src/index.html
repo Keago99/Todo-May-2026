@@ -51,22 +51,49 @@
                 <label for="todoName">Name:</label>
                 <input type="text" id="todoName">
                 <label for="todoDescription">Description</label>
-                <textarea id="todoDescription" id="todoDescription" rows="3" cols="40"></textarea>
+                <textarea id="todoDescription" rows="3" cols="40"></textarea>
                 <label for="todoDueDate">Due Date:</label>
                 <input type="date" id="todoDueDate">
                 <label for="todoPriority">Priority:</label>
                 <select id="todoPriority">
-                    <option value="Low 🔴">Low 🔴</option>
+                    <option value="Low 🟢">Low 🟢</option>
                     <option value="Medium 🟡" selected>Medium 🟡</option>
-                    <option value="High 🟢">High 🟢</option>
+                    <option value="High 🔴">High 🔴</option>
                 </select>
             </div>
             <div class="dialogButtonDiv">
-                <button type="button" id="todoAddBtn" class="dialogButton">
+                <button type="button" id="dialogTodoAddBtn" class="dialogButton">
                     Add Todo ✏️
                 </button>
                 <button type="button" id="dialogTodoCloseBtn" class="dialogButton">
                     Close ❌
+                </button>
+            </div>
+        </dialog>
+                <dialog id="todoEditDialog">
+            <div class="dialogHeading">
+                <h2>Edit Todo✍️</h2>
+            </div>
+            <div class="dialogInputs">
+                <label for="todoEditName">Name:</label>
+                <input type="text" id="todoEditName">
+                <label for="todoEditDescription">Description</label>
+                <textarea id="todoEditDescription" rows="3" cols="40"></textarea>
+                <label for="todoEditDueDate">Due Date:</label>
+                <input type="date" id="todoEditDueDate">
+                <label for="todoEditPriority">Priority:</label>
+                <select id="todoEditPriority">
+                    <option value="Low 🟢">Low 🟢</option>
+                    <option value="Medium 🟡" selected>Medium 🟡</option>
+                    <option value="High 🔴">High 🔴</option>
+                </select>
+            </div>
+            <div class="dialogButtonDiv">
+                <button type="button" id="dialogSaveEdits" class="dialogButton">
+                    Save Edits 💾
+                </button>
+                <button type="button" id="dialogEditsClose" class="dialogButton">
+                    Cancel ❌
                 </button>
             </div>
         </dialog>

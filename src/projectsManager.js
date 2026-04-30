@@ -1,9 +1,22 @@
 // manage the main storage and projects in totality
-
-import { createProject } from "./project.js";
+import * as project from "./project.js";
+import * as todo from "./todo.js";
+import * as display from "./display.js";
 
 let projects = [];
+
 let activeProject = null;
+
+
+const setDefaultProject = () => {
+    const newProject = project.createProject("DefaultProject");
+    addProject(newProject);
+    setActiveProject(newProject);
+    display.renderProjects();
+    const testTodo = todo.createTodo("testName","this is a test!","whenever","medium");
+    newProject.addTodo(testTodo);
+    display.renderTodos(newProject);
+}
 
 const returnProjects = () => projects;
 
@@ -34,4 +47,4 @@ const deleteProject = (project) =>{
     }
 }
 
-export { returnProjects, setProjects, setActiveProject, returnActiveProject, addProject, deleteProject};
+export { returnProjects, setProjects, setActiveProject, returnActiveProject, addProject, deleteProject, setDefaultProject};

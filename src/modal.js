@@ -2,6 +2,14 @@
 import * as project from "./project.js"
 import * as projectsManager from "./projectsManager.js";
 import * as todo from "./todo.js";
+import * as display from "./display.js";
+
+
+const defaultAddProject = () =>{
+    const newProject = project.createProject("defaultProject");
+    projectsManager.addProject(newProject);
+    display.renderProjects();
+}
 
 const modalAddProject = () =>{
     const projectName = document.querySelector("#projectName").value.trim();
@@ -49,4 +57,4 @@ const modalAddTodo = () =>{
     }
 }
 
-export { modalAddProject };
+export { modalAddProject, defaultAddProject };

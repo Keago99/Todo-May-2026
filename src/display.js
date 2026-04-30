@@ -1,6 +1,7 @@
 import * as projectsManager from "./projectsManager.js";
 import * as modal from "./modal.js";
 import * as project from "./project.js";
+import * as todo from "./todo.js";
 
 const showTodoDialog = () =>{
     const todoDialog = document.querySelector("#todoDialog");
@@ -8,7 +9,13 @@ const showTodoDialog = () =>{
     const addTodoBtn = document.querySelector("#addTodoBtn");
 
     addTodoBtn.addEventListener("click", () =>{
-        todoDialog.showModal();
+        if(projectsManager.returnActiveProject() === null){
+            alert("please select an active project!");
+            return;
+        }else{
+            todoDialog.showModal();
+        }
+  
     });
 }
 
@@ -37,14 +44,16 @@ const createProjectElement = (project) =>{
     projectDiv.className = "project-item";
     projectDiv.textContent = project.getName();
     projectDiv.dataset.projectID = project.getID();
+    
 
     projectDiv.addEventListener("click", () =>{
         projectsManager.setActiveProject(project);
         document.querySelectorAll(".activeProject").forEach(projDiv => {
             projDiv.classList.remove("activeProject");
         });
-        projectDiv.classList.toggle("activeProject");
+        projectDiv.classList.add("activeProject");
         console.log(`the active project is ${project.getName()}`);
+        renderTodos(project);
     });
 
     const deleteBtn = document.createElement("button");
@@ -58,6 +67,8 @@ const createProjectElement = (project) =>{
         e.stopPropagation();
         const userConfirmed = confirm(`Are you sure you want to delete ${project.getName()}?`);
         if (userConfirmed){
+            const cardArea = document.querySelector("#cardArea");
+            cardArea.innerHTML = "";
             const projectDeleted = projectsManager.deleteProject(project);
             projectsManager.setActiveProject(null);
             console.log(`The active project is ${projectsManager.returnActiveProject()}`);
@@ -96,7 +107,7 @@ const createTodoElement = (todo) => {
 
     const priority = document.createElement("div");
     priority.className = "todoPriority";
-    priority.textContent = getPriority();
+    priority.textContent = todo.getPriority();
 
     const completed = document.createElement("div");
     completed.className = "todoCompleted";
@@ -118,13 +129,18 @@ const createTodoElement = (todo) => {
 const renderProjects = () =>{
     const projectArea = document.querySelector("#projectArea");
     let projects = projectsManager.returnProjects();
+    const activeProject = projectsManager.returnActiveProject();
 
     projectArea.innerHTML = "";
 
     projects.forEach(project => {
         const projectDiv =createProjectElement(project);
+        if (project === activeProject){
+            projectDiv.classList.add("activeProject");
+        }
         projectArea.append(projectDiv)
     });
+
 }
 
 const renderTodos = (project) =>{
@@ -136,6 +152,7 @@ const renderTodos = (project) =>{
         const todoCard = createTodoElement(todo);
         cardArea.append(todoCard);
     });
+    console.log(`rendered todo of ${project.getName()}`);
 }
 
 const clearProjectDialogInput = () => {
@@ -171,23 +188,48 @@ const addTodoDialog = () =>{
 
     const currentProject = projectsManager.returnActiveProject();
 
-    const name = document.querySelector("#todoName");
+    const name = document.querySelector("#todoName").value.trim();
 
-    const desc = document.querySelector("#todoDescription");
+    const desc = document.querySelector("#todoDescription").value.trim();
 
-    const date = document.querySelector("#todoDueDate");
+    const date = document.querySelector("#todoDueDate").value.trim();
 
-    const priority = document.querySelector("#todoPriority");
+    const priority = document.querySelector("#todoPriority").value.trim();
 
     if (!name || !desc || !date || !priority){
         alert("Please fill in all missing fields");
-        return;
+        return false;
     }
     else{
-        const newTodo = project.createProject(name, desc, date, priority);
+        const newTodo = todo.createTodo(name, desc, date, priority);
         currentProject.addTodo(newTodo);
-        console.log(currentProject.getTodos())
+        todoDialog.close();
+        clearTodoDialog();
+        renderTodos(currentProject);
+        return true;
     }
+}
+
+const clearTodoDialog = () => {
+    document.querySelector("#todoName").value = "";
+    document.querySelector("#todoDescription").value = "";
+    document.querySelector("#todoDueDate").value = "";
+    document.querySelector("#todoPriority").value = "Medium 🟡";  // default
+}
+
+const addTodoDialogEvent = () => {
+    const dialog = document.querySelector("#todoDialog");
+    const addBtn = document.querySelector("#dialogTodoAddBtn");
+
+    addBtn.addEventListener("click", () =>{
+        const addedTodo = addTodoDialog();
+        if(addedTodo){
+            console.log("todo added");
+        }
+        else{
+            console.log("todo not added");
+        }
+    });
 }
 
 //composite function that will be exported to index.js on launch
@@ -197,6 +239,7 @@ const displayStartup = () => {
     addProjectDialogEvent();
     showTodoDialog();
     closeTodoDialog();
+    addTodoDialogEvent();
 }
 
-export { showProjectDialog, closeProjectDialog, addProjectDialogEvent, showTodoDialog, closeTodoDialog, displayStartup };
+export { showProjectDialog, closeProjectDialog, addProjectDialogEvent, showTodoDialog, closeTodoDialog, displayStartup, renderProjects,renderTodos };
