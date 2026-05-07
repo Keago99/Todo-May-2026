@@ -132,6 +132,19 @@ const createTodoElement = (todo) => {
         completed.textContent = "Completed";
     }
 
+    const completedButton = document.createElement("button");
+    completedButton.classList.add("todoCompletedButton");
+    completedButton.innerText = "✅";
+
+    completed.append(completedButton);
+
+    completedButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        todo.toggleCompleted();
+        const currentProject = projectsManager.returnActiveProject();
+        renderTodos(currentProject);
+    })
+
     const buttonSection = document.createElement("div");
     buttonSection.classList.add("todoButtonSection");
     

@@ -178,3 +178,8 @@ select option {
     margin-top: 10px;
     justify-content: space-evenly;
 }
+
+.todoCompletedButton{
+    width: 30px;
+    height: auto;
+}
