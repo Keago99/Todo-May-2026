@@ -2,9 +2,8 @@ import "./styles.css";
 import * as display from "./display.js";
 import * as modal from "./modal.js";
 import * as projectManager from "./projectsManager.js";
-
+import * as localStorage from "./localStorage.js";
 
 display.displayStartup();
-projectManager.setDefaultProject();
+localStorage.loadProjects();
 
-// create default project, set the default project, render default project

@@ -7,13 +7,12 @@ let projects = [];
 
 let activeProject = null;
 
-
 const setDefaultProject = () => {
     const newProject = project.createProject("DefaultProject");
     addProject(newProject);
     setActiveProject(newProject);
     display.renderProjects();
-    const testTodo = todo.createTodo("testName","this is a test!","whenever","medium");
+    const testTodo = todo.createTodo("testName","this is a test!","2026-04-15","Medium 🟡");
     newProject.addTodo(testTodo);
     display.renderTodos(newProject);
 }

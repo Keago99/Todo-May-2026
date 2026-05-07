@@ -1,16 +1,30 @@
 // project logic here
 
-function createProject(name){
+function createProject(name, existingID = null){
     //code here
     let projectTodos = [];
 
-    const projectID = crypto.randomUUID();
+    let projectID;
+    
+    if (existingID !== null) {
+        projectID = existingID;
+    } else {
+        projectID = crypto.randomUUID();
+    }
 
     const getID = () => projectID;
+
+    const setID = (newID) => {
+        projectID = newID;
+    }
 
     const getTodos = () => projectTodos;
 
     const getName = () => name;
+
+    const rename = (newName) => {
+        name = newName;
+    }
 
     const addTodo = (todo) => {
         projectTodos.push(todo);
@@ -20,7 +34,7 @@ function createProject(name){
         projectTodos = projectTodos.filter(t => t.getID() !== todo.getID());
     }
 
-    return { getID, getTodos, getName, addTodo, removeTodo };
+    return { getID, getTodos, getName, addTodo, removeTodo, rename };
 }
 
 export { createProject };

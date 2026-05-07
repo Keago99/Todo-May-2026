@@ -2,6 +2,7 @@ import * as projectsManager from "./projectsManager.js";
 import * as modal from "./modal.js";
 import * as project from "./project.js";
 import * as todo from "./todo.js";
+import * as localStorage from "./localStorage.js";
 
 const showTodoDialog = () =>{
     const todoDialog = document.querySelector("#todoDialog");
@@ -52,7 +53,6 @@ const createProjectElement = (project) =>{
             projDiv.classList.remove("activeProject");
         });
         projectDiv.classList.add("activeProject");
-        console.log(`the active project is ${project.getName()}`);
         renderTodos(project);
     });
 
@@ -71,7 +71,6 @@ const createProjectElement = (project) =>{
             cardArea.innerHTML = "";
             const projectDeleted = projectsManager.deleteProject(project);
             projectsManager.setActiveProject(null);
-            console.log(`The active project is ${projectsManager.returnActiveProject()}`);
             if(projectDeleted){
                 console.log("project deleted");
                 renderProjects();
@@ -85,7 +84,20 @@ const createProjectElement = (project) =>{
         }
     });
 
-    projectDiv.append(deleteBtn);
+    const editButton = document.createElement("button");
+    editButton.classList.add("projectDeleteBtn");
+    editButton.innerHTML = "🖊️";
+
+    editButton.addEventListener("click", (e) =>{
+        e.stopPropagation();
+        const newName = prompt("Rename project", project.getName());
+        if(newName && newName.trim() !== ""){
+            project.rename(newName.trim());
+            renderProjects();
+        }
+    });
+
+    projectDiv.append(editButton,deleteBtn);
     return projectDiv;
 }
 
@@ -120,7 +132,44 @@ const createTodoElement = (todo) => {
         completed.textContent = "Completed";
     }
 
-    todoCard.append(title, description, dueDate, priority, completed);
+    const buttonSection = document.createElement("div");
+    buttonSection.classList.add("todoButtonSection");
+    
+    const editButton = document.createElement("button");
+    editButton.classList.add("todoEditButton");
+    editButton.innerText = "Edit Todo 🖋️";
+
+    editButton.addEventListener("click", (e) =>{
+        e.stopPropagation();
+        const todoEditDialog = document.querySelector("#todoEditDialog");
+
+        document.querySelector("#todoEditName").value = todo.getTitle();
+
+        document.querySelector("#todoEditDescription").value = todo.getDescription();
+
+        document.querySelector("#todoEditDueDate").value = todo.getDueDate();
+
+        document.querySelector("#todoEditPriority").value = todo.getPriority();
+
+        todoEditDialog.dataset.editTodoID = todo.getID();
+
+        todoEditDialog.showModal();
+    });
+
+    const deleteTodoButton = document.createElement("button")
+    deleteTodoButton.classList.add("deleteTodoButton");
+    deleteTodoButton.innerText = "Delete ❌";
+
+    deleteTodoButton.addEventListener("click", (e) =>{
+        e.stopPropagation();
+        const currentProject = projectsManager.returnActiveProject();
+        currentProject.removeTodo(todo);
+        renderTodos(currentProject);
+    });
+
+    buttonSection.append(editButton, deleteTodoButton);
+
+    todoCard.append(title, description, dueDate, priority, completed, buttonSection);
     
     return todoCard;
 }
@@ -169,6 +218,7 @@ const addProjectDialogEvent = () =>{
         modal.modalAddProject();
         renderProjects();
         clearProjectDialogInput();
+        localStorage.saveProjects();
         dialogProject.close();
 
     })
@@ -210,6 +260,39 @@ const addTodoDialog = () =>{
     }
 }
 
+const EditTodoDialog = () => {
+    const todoEditDialog = document.querySelector("#todoEditDialog");
+
+    const title = document.querySelector("#todoEditName").value.trim();
+
+    const description = document.querySelector("#todoEditDescription").value.trim();
+
+    const dueDate = document.querySelector("#todoEditDueDate").value;
+
+    const priority = document.querySelector("#todoEditPriority").value;
+
+    const todoID = todoEditDialog.dataset.editTodoID;
+    console.log(todoID,"is the ID");
+    if(!todoID){
+        alert("Todo not found, how did this happen!?");
+        return false;
+    }
+
+    const currentProject = projectsManager.returnActiveProject();
+    const todos = currentProject.getTodos();
+    const todoEdit = todos.find(t => t.getID() === todoID);
+
+    todoEdit.setTitle(title);
+    todoEdit.setDescription(description);
+    todoEdit.setDueDate(dueDate);
+    todoEdit.setPriority(priority);
+    renderTodos(currentProject);
+    todoEditDialog.close();
+
+    delete todoEditDialog.dataset.editTodoID;
+    return true;
+}
+
 const clearTodoDialog = () => {
     document.querySelector("#todoName").value = "";
     document.querySelector("#todoDescription").value = "";
@@ -225,11 +308,36 @@ const addTodoDialogEvent = () => {
         const addedTodo = addTodoDialog();
         if(addedTodo){
             console.log("todo added");
+            localStorage.saveProjects();
         }
         else{
             console.log("todo not added");
         }
     });
+}
+
+const closeEditTodoDialog = () => {
+    const todoEditDialog = document.querySelector("#todoEditDialog");
+
+    todoEditDialog.close()
+}
+
+const closeEditTodoDialogEvent = () =>{
+    const closeButton = document.querySelector("#dialogEditsClose");
+    closeButton.addEventListener("click", closeEditTodoDialog);
+}
+
+const editTodoDialogBtnEvent = () => {
+    const editTodoButton = document.querySelector("#dialogSaveEdits");
+
+    editTodoButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const edited = EditTodoDialog();
+
+        if (edited){
+            localStorage.saveProjects();
+        }
+    })
 }
 
 //composite function that will be exported to index.js on launch
@@ -240,6 +348,8 @@ const displayStartup = () => {
     showTodoDialog();
     closeTodoDialog();
     addTodoDialogEvent();
+    closeEditTodoDialogEvent();
+    editTodoDialogBtnEvent();
 }
 
 export { showProjectDialog, closeProjectDialog, addProjectDialogEvent, showTodoDialog, closeTodoDialog, displayStartup, renderProjects,renderTodos };
